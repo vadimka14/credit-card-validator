@@ -11,7 +11,7 @@ type Bank struct {
 }
 
 func main() {
-	var myCard string = "79927393398713"
+	var myCard string = "40007393398713"
 	banks := []Bank{
 		{Name: "Lunar Bank", Prefix: "4000"},
 		{Name: "Mars Credit Union", Prefix: "5000"},
@@ -19,9 +19,15 @@ func main() {
 		{Name: "Saturn Ring", Prefix: "7000"},
 		{Name: "Jupiter Trust", Prefix: "8000"},
 	}
-	fmt.Println(DetectBank(myCard, banks))
 
-	fmt.Println(LuhnCheck(myCard))
+	fmt.Printf("Валиден по Луне: %t\n", LuhnCheck(myCard))
+
+	bank := DetectBank(myCard, banks)
+	if bank != nil {
+		fmt.Printf("Банк: %s\n", bank.Name)
+	} else {
+		fmt.Println("Банк: не определён")
+	}
 
 }
 
