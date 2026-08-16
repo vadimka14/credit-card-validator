@@ -11,6 +11,7 @@ type Bank struct {
 }
 
 func main() {
+	var myCard string = "79927393398713"
 	banks := []Bank{
 		{Name: "Lunar Bank", Prefix: "4000"},
 		{Name: "Mars Credit Union", Prefix: "5000"},
@@ -18,9 +19,9 @@ func main() {
 		{Name: "Saturn Ring", Prefix: "7000"},
 		{Name: "Jupiter Trust", Prefix: "8000"},
 	}
-	fmt.Println(DetectBank("", banks))
+	fmt.Println(DetectBank(myCard, banks))
 
-	fmt.Println(LuhnCheck("79927393398713"))
+	fmt.Println(LuhnCheck(myCard))
 
 }
 
