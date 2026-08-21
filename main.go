@@ -16,7 +16,7 @@ type Bank struct {
 func main() {
 	var myCard string = "40007393398713"
 
-	banks, err := loadBankData("bank.txt")
+	banks, err := loadBankData("banks.txt")
 	if err != nil {
 		log.Fatal("Не удалось загрузить банки: open banks.txt: no such file or directory")
 	} else {
