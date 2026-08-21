@@ -14,8 +14,6 @@ type Bank struct {
 }
 
 func main() {
-	var myCard string = "40007393398713"
-
 	banks, err := loadBankData("banks.txt")
 	if err != nil {
 		log.Fatalf("Не удалось загрузить банки: %v", err)
@@ -23,13 +21,22 @@ func main() {
 
 	fmt.Printf("Загружено банков: %d\n", len(banks))
 
-	fmt.Printf("Валиден по Луне: %t\n", LuhnCheck(myCard))
+	for {
+		userCard := getUserInput()
 
-	bank := DetectBank(myCard, banks)
-	if bank != nil {
-		fmt.Printf("Банк: %s\n", bank.Name)
-	} else {
-		fmt.Println("Банк: не определён")
+		if len(userCard) == 0 {
+			fmt.Println("До свидания!")
+			break
+		}
+
+		fmt.Printf("Валиден по Луне: %t\n", LuhnCheck(userCard))
+
+		bank := DetectBank(userCard, banks)
+		if bank != nil {
+			fmt.Printf("Банк: %s\n", bank.Name)
+		} else {
+			fmt.Println("Банк: не определён")
+		}
 	}
 
 }
@@ -110,4 +117,14 @@ func loadBankData(path string) ([]Bank, error) {
 	}
 
 	return banks, nil
+}
+
+func getUserInput() string {
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Введите номер карты (или Enter для выхода):")
+	input, _ := reader.ReadString('\n')
+	input = strings.TrimSpace(input)
+	input = strings.ReplaceAll(input, "-", "")
+	input = strings.ReplaceAll(input, " ", "")
+	return input
 }
