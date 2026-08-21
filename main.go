@@ -106,7 +106,7 @@ func loadBankData(path string) ([]Bank, error) {
 		})
 	}
 	if err := scanner.Err(); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("ошибка чтения файла banks.txt: %w", err)
 	}
 
 	return banks, nil
