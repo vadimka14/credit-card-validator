@@ -1,4 +1,4 @@
-Lunar Bank,4000
+Lunar Bank,4000  
 Mars Credit Union,5000
 Venus Express,6000
 Saturn Ring,7000

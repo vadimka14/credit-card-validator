@@ -18,10 +18,10 @@ func main() {
 
 	banks, err := loadBankData("banks.txt")
 	if err != nil {
-		log.Fatal("Не удалось загрузить банки: open banks.txt: no such file or directory")
-	} else {
-		fmt.Printf("Загружено банков: %d\n", len(banks))
+		log.Fatalf("Не удалось загрузить банки: %v", err)
 	}
+
+	fmt.Printf("Загружено банков: %d\n", len(banks))
 
 	fmt.Printf("Валиден по Луне: %t\n", LuhnCheck(myCard))
 
@@ -89,6 +89,17 @@ func loadBankData(path string) ([]Bank, error) {
 		if len(parts) != 2 {
 			return nil, fmt.Errorf("неверный формат строки: %q", line)
 		}
+		if len(parts[1]) != 4 {
+			return nil, fmt.Errorf("неверный формат строки: %q", parts[1])
+		}
+
+		for i := range parts[1] {
+			digit := int(parts[1][i] - '0')
+			if digit > 9 {
+				return nil, fmt.Errorf("неверный формат строки: %q", parts[1])
+			}
+		}
+
 		banks = append(banks, Bank{
 			Name:   strings.TrimSpace(parts[0]),
 			Prefix: strings.TrimSpace(parts[1]),
