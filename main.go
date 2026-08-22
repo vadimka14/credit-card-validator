@@ -29,13 +29,21 @@ func main() {
 			break
 		}
 
-		fmt.Printf("Валиден по Луне: %t\n", LuhnCheck(userCard))
+		if err := validateInput(userCard); err != nil {
+			fmt.Println(err)
+			continue
+		}
+
+		if !LuhnCheck(userCard) {
+			fmt.Println("Ошибка: номер не прошёл проверку Луна")
+			continue
+		}
 
 		bank := DetectBank(userCard, banks)
 		if bank != nil {
 			fmt.Printf("Банк: %s\n", bank.Name)
 		} else {
-			fmt.Println("Банк: не определён")
+			fmt.Println("Неизвестный банк")
 		}
 	}
 
@@ -127,4 +135,19 @@ func getUserInput() string {
 	input = strings.ReplaceAll(input, "-", "")
 	input = strings.ReplaceAll(input, " ", "")
 	return input
+}
+
+func validateInput(cardNumber string) error {
+	minLen := 13
+	maxLen := 19
+	if len(cardNumber) > maxLen || len(cardNumber) < minLen {
+		return fmt.Errorf("Ошибка: номер должен содержать от %d до %d цифр", minLen, maxLen)
+	}
+	for _, ch := range cardNumber {
+		digit := int(ch - '0')
+		if digit < 0 || digit > 9 {
+			return fmt.Errorf("Ошибка: номер должен содержать только цифры")
+		}
+	}
+	return nil
 }
